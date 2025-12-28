@@ -43,9 +43,9 @@ export const menuItems = [
     path: "/dashboard/privacy-policy",
   },
   {
-    label: "My Profile",
+    label: "Change Password",
     icon: User,
-    path: "/dashboard/profile",
+    path: "/dashboard/change-password",
   },
 ];
 

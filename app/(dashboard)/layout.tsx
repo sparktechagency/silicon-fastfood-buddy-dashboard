@@ -11,12 +11,12 @@ export default function DashboardLayout({
       <aside className="bg-white">
         <Sidebar />
       </aside>
-      <main className="flex-1 h-screen ">
+      <main className="flex-1 h-screen">
         <div className="sticky top-0 z-50">
           <Navbar />
         </div>
         <div
-          className="overflow-y-auto scroll-smooth p-4 hide-scrollbar"
+          className="overflow-y-auto scroll-smooth p-4 hide-scrollbar "
           style={{ height: "calc(100vh - 68px)" }}
         >
           {children}
