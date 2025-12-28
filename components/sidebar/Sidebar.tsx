@@ -51,24 +51,24 @@ export const menuItems = [
 
 export default function Sidebar() {
   return (
-    <aside className="h-screen w-80 bg-[#012846] text-white p-4 flex flex-col justify-between">
+    <aside className="h-screen w-80 bg-[#012846] text-white p-4 ">
       {/* Menu */}
-      <div>
-        <Image
-          src="/logo.png"
-          alt="logo"
-          width={10}
-          height={10}
-          className="w-full h-full"
-          sizes="100vh"
-        />
-      </div>
-      <div className="space-y-3">
+
+      <Image
+        src="/logo.png"
+        alt="logo"
+        width={10}
+        height={10}
+        className="w-full h-44"
+        sizes="100vh"
+      />
+
+      <div className="space-y-3 mt-10">
         {menuItems.map(({ label, icon: Icon, path }) => (
           <Link
             href={path}
             key={label}
-            className={`flex items-center gap-3 w-full px-5 py-3 rounded-full font-medium transition text-lg bg-[#054768]`}
+            className={`flex items-center gap-3 w-full px-5 py-3 rounded-full font-medium transition text-lg bg-[#054768] `}
           >
             <Icon className="w-5 h-5 text-orange-400" />
             {label}
@@ -77,16 +77,10 @@ export default function Sidebar() {
       </div>
 
       {/* Logout */}
-      <button className="flex items-center gap-3 px-5 py-3 rounded-full text-sm font-medium bg-[#07324F] text-gray-200 hover:bg-[#0B4A6F] transition">
+      <button className="flex items-center gap-3 px-5 py-3 mt-20 w-full rounded-full text-sm font-medium bg-[#07324F] text-gray-200 hover:bg-[#0B4A6F] transition">
         <LogOut className="w-5 h-5 text-orange-400" />
         Log Out
       </button>
     </aside>
   );
 }
-
-//   ${
-//                 active
-//                   ? "bg-linear-to-b from-[#0B4A6F] to-[#0E6B9C] text-white"
-//                   : "bg-[#07324F] text-gray-200 hover:bg-[#0B4A6F]"
-//               }`}

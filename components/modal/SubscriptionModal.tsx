@@ -62,13 +62,15 @@ export default function SubscriptionModal({
     };
 
     const id = item?._id ? "PATCH" : "POST";
-    const url = id ? `/packages/${item?._id}` : "/packages/create";
+    const url = item?._id ? `/packages/${item?._id}` : "/packages/create";
 
     try {
       const res = await myFetch(url, {
         method: id,
         body: payload,
       });
+
+      console.log("res", res);
 
       if (res?.success) {
         toast.success(res?.message);
