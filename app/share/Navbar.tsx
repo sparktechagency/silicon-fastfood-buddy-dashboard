@@ -12,7 +12,7 @@ export default function Navbar() {
             alt="logo"
             width={50}
             height={60}
-            className="w-14 h-16 rounded-full"
+            className="w-12 h-12 rounded-full"
             sizes="100vh"
           />
           <div className="text-white">

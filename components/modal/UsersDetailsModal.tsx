@@ -1,137 +1,46 @@
-"use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import dayjs from "dayjs";
+import { Lock } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 
 export default function UsersDetailsModal({
   trigger,
   item,
 }: {
   trigger: React.ReactNode;
-  item: number;
+  item: any;
 }) {
-  const [status, setStatus] = useState("user");
+  console.log("item", item);
+
   return (
     <Dialog>
       <DialogTrigger>{trigger}</DialogTrigger>
-      <DialogContent className="bg-white rounded-xl min-w-xl  max-w-xl w-full ">
-        {item % 2 === 0 ? <span>Active</span> : <span>Inactive</span>}
+      <DialogContent className="bg-[#00596B] text-white rounded-xl w-full max-w-sm mx-auto p-6 flex flex-col items-center gap-4">
+        {/* Avatar */}
+        <Image
+          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.image}`}
+          alt={item?.name}
+          width={80}
+          height={80}
+          className="w-20 h-20 rounded-full object-cover"
+          unoptimized
+        />
 
-        <div className="flex gap-5">
-          <button
-            className={`border rounded py-1 px-2 cursor-pointer ${
-              status === "user" ? "bg-green-700 text-white" : ""
-            }`}
-            onClick={() => setStatus("user")}
-          >
-            User Info
-          </button>
-          <button
-            className={`border rounded py-1 px-2 cursor-pointer ${
-              status === "bussiness" ? "bg-green-700 text-white" : ""
-            }`}
-            onClick={() => setStatus("bussiness")}
-          >
-            Bussiness Info
-          </button>
+        {/* User Info */}
+        <div className="text-center flex flex-col gap-1">
+          <h2 className="text-xl font-semibold">{item?.name}</h2>
+          <p className="text-sm text-gray-200">{item?.email}</p>
+          <p className="text-sm text-gray-200">
+            Registration Date: {dayjs(item?.date).format("DD MMM YYYY")}
+          </p>
+          <p className="text-sm text-gray-200">Status: {item?.status}</p>
         </div>
-        <div className="">
-          {/* Header */}
-          {status === "user" ? (
-            <div className="p-3 flex items-center gap-3">
-              <Image
-                src="/ads/profile.png"
-                width={10}
-                height={10}
-                alt="avatar"
-                sizes="100vh"
-                className="w-16 h-16 rounded-full object-cover"
-              />
-              <div>
-                <h2 className=" text-xl ">Cafe d Rio</h2>
-                <p className="text-gray-500 text-sm">madelyn@gmail.com</p>
-              </div>
-            </div>
-          ) : (
-            <div className="p-3 flex items-center gap-3">
-              <Image
-                src="/bussiness.png"
-                width={10}
-                height={10}
-                alt="avatar"
-                sizes="100vh"
-                className="w-16 h-16 rounded-full object-cover"
-              />
-              <div>
-                <h2 className=" text-xl ">Fast Food Ltd</h2>
-                <p className="text-gray-500 text-sm">madelyn@gmail.com</p>
-              </div>
-            </div>
-          )}
 
-          {/* Content */}
-          {status === "user" ? (
-            <div className="p-2 space-y-4">
-              <hr />
-              {/* Price */}
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Age</p>
-                <p className="">50</p>
-              </div>
-
-              {/* Reach & Click */}
-              <div className="grid grid-cols-1 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500 font-medium">Gender</p>
-                  <p className="">Male</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 font-medium">Address</p>
-                  <p className="">California, USA</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 font-medium">Country</p>
-                  <p className="">USA</p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="p-6 space-y-4">
-              {/* Description */}
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Bio</p>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  The standard lorem ipsum passage has been a printer’s friend
-                  for centuries. Like stock photos today, it served as a
-                  placeholder for actual content.
-                </p>
-              </div>
-              <hr />
-
-              {/* Price */}
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Phone</p>
-                <p className="">+123456789</p>
-              </div>
-
-              {/* Reach & Click */}
-              <div className="grid grid-cols-1 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500 font-medium">
-                    Business License Number{" "}
-                  </p>
-                  <p className="">56565757</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 font-medium">
-                    Bussiness Type
-                  </p>
-                  <p className="">Restaurant</p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+        {/* Block Button */}
+        <button className="bg-orange-500 text-white px-6 py-2 rounded-full flex items-center justify-center gap-2 hover:bg-orange-600 transition-colors">
+          {/* <Lock className="w-4 h-4" /> */}
+          {item?.status}
+        </button>
       </DialogContent>
     </Dialog>
   );

@@ -11,7 +11,7 @@ export default function DashboardLayout({
       <aside className="bg-white">
         <Sidebar />
       </aside>
-      <main className=" flex-1 h-screen ">
+      <main className="flex-1 h-screen ">
         <div className="sticky top-0 z-50">
           <Navbar />
         </div>
