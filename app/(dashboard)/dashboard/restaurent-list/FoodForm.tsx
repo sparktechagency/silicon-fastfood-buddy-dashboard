@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 type FormValues = {
@@ -29,20 +29,49 @@ const defaultValues = {
   fat: "50g",
   protein: "50g",
   fiber: "5g",
-}
+};
 
 const FoodForm: React.FC = () => {
   const { control, handleSubmit, setValue } = useForm<FormValues>({
     defaultValues: defaultValues,
   });
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setFile(file);
+    }
+  };
+
+  const handleClick = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div></div>
+      <div
+        className="border-2 border-dashed border-[#0097B5] flex items-center justify-center p-12 text-white"
+        onClick={handleClick}
+      >
+        {file?.name ? file?.name : "Upload CSV / PDF"}
+      </div>
+
+      <input
+        ref={inputRef}
+        type="file"
+        id="file-upload"
+        className="hidden"
+        accept=".csv,.pdf"
+        onChange={handleChange}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Item Category */}
         <div>
@@ -125,11 +154,7 @@ const FoodForm: React.FC = () => {
             name="whatUsuallyHappens"
             control={control}
             render={({ field }) => (
-              <textarea
-                {...field}
-                rows={3}
-                className="foodInputStyle"
-              />
+              <textarea {...field} rows={3} className="foodInputStyle" />
             )}
           />
         </div>
@@ -139,11 +164,7 @@ const FoodForm: React.FC = () => {
             name="whyThisMatters"
             control={control}
             render={({ field }) => (
-              <textarea
-                {...field}
-                rows={3}
-                className="foodInputStyle"
-              />
+              <textarea {...field} rows={3} className="foodInputStyle" />
             )}
           />
         </div>
@@ -158,10 +179,7 @@ const FoodForm: React.FC = () => {
             name="moderateAbsorption"
             control={control}
             render={({ field }) => (
-              <input
-                {...field}
-                className="foodInputStyle"
-              />
+              <input {...field} className="foodInputStyle" />
             )}
           />
         </div>
@@ -172,14 +190,11 @@ const FoodForm: React.FC = () => {
             name="description"
             control={control}
             render={({ field }) => (
-              <textarea
-                {...field}
-                rows={3}
-                className="foodInputStyle"
-              />
+              <textarea {...field} rows={3} className="foodInputStyle" />
             )}
           />
-        </div></div>
+        </div>
+      </div>
 
       {/* Nutrients */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -189,11 +204,7 @@ const FoodForm: React.FC = () => {
             name="carbs"
             control={control}
             render={({ field }) => (
-              <input
-                type="text"
-                {...field}
-                className="foodInputStyle"
-              />
+              <input type="text" {...field} className="foodInputStyle" />
             )}
           />
         </div>
@@ -204,11 +215,7 @@ const FoodForm: React.FC = () => {
             name="fat"
             control={control}
             render={({ field }) => (
-              <input
-                type="text"
-                {...field}
-                className="foodInputStyle"
-              />
+              <input type="text" {...field} className="foodInputStyle" />
             )}
           />
         </div>
@@ -219,11 +226,7 @@ const FoodForm: React.FC = () => {
             name="protein"
             control={control}
             render={({ field }) => (
-              <input
-                type="text"
-                {...field}
-                className="foodInputStyle"
-              />
+              <input type="text" {...field} className="foodInputStyle" />
             )}
           />
         </div>
@@ -234,21 +237,14 @@ const FoodForm: React.FC = () => {
             name="fiber"
             control={control}
             render={({ field }) => (
-              <input
-                type="text"
-                {...field}
-                className="foodInputStyle"
-              />
+              <input type="text" {...field} className="foodInputStyle" />
             )}
           />
         </div>
       </div>
 
       {/* Submit Button */}
-      <button
-        type="submit"
-        className="authButtonStyle"
-      >
+      <button type="submit" className="authButtonStyle">
         Add Now
       </button>
     </form>

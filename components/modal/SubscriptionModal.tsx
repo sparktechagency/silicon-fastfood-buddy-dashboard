@@ -7,6 +7,8 @@ import { Minus, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import { myFetch } from "@/app/utils/myFetch";
 import { toast } from "sonner";
+import { revalidate } from "@/app/utils/revalidateTags";
+import { useState } from "react";
 
 type Inputs = {
   name: string;
@@ -19,9 +21,12 @@ type Inputs = {
 
 export default function SubscriptionModal({
   trigger,
+  item,
 }: {
   trigger: React.ReactNode;
+  item?: any;
 }) {
+  const [open, setOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -30,11 +35,15 @@ export default function SubscriptionModal({
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      name: "",
-      price: "",
-      androidProductId: "",
-      iosProductId: "",
-      features: [{ value: "" }],
+      name: item?.name || "",
+      price: item?.price || "",
+      androidProductId: item?.androidProductId || "",
+      iosProductId: item?.iosProductId || "",
+      features: item?.features?.map((v: string) => {
+        return {
+          value: v,
+        };
+      }) || [{ value: "" }],
     },
   });
 
@@ -45,7 +54,6 @@ export default function SubscriptionModal({
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const features = data?.features?.map((item) => item.value);
-    console.log("data", data);
 
     const payload = {
       name: data?.name,
@@ -55,22 +63,35 @@ export default function SubscriptionModal({
       iosProductId: data.iosProductId,
     };
 
+    const id = item?._id ? "PATCH" : "POST";
+    const url = item?._id ? `/packages/${item?._id}` : "/packages/create";
+
     try {
-      const res = await myFetch("/packages/create", {
-        method: "POST",
+      const res = await myFetch(url, {
+        method: id,
         body: payload,
       });
 
       console.log("res", res);
+
+      if (res?.success) {
+        toast.success(res?.message);
+        revalidate("packages");
+      } else {
+        toast.error(res.message);
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Occured try");
+    } finally {
+      setOpen(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="bg-[#00596B] text-white rounded-xl w-full min-w-xl mx-auto   gap-4">
+        <h1>{item?._id ? "Edit Package" : "Add Package"}</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Name</Label>
