@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { myFetch } from "@/app/utils/myFetch";
 import { toast } from "sonner";
 import { revalidate } from "@/app/utils/revalidateTags";
+import { useState } from "react";
 
 type Inputs = {
   name: string;
@@ -25,6 +26,7 @@ export default function SubscriptionModal({
   trigger: React.ReactNode;
   item?: any;
 }) {
+  const [open, setOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -80,11 +82,13 @@ export default function SubscriptionModal({
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Occured try");
+    } finally {
+      setOpen(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="bg-[#00596B] text-white rounded-xl w-full min-w-xl mx-auto   gap-4">
         <h1>{item?._id ? "Edit Package" : "Add Package"}</h1>

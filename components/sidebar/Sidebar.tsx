@@ -25,7 +25,7 @@ export const menuItems = [
   {
     label: "Restaurant List",
     icon: Store,
-    path: "/dashboard/restaurants",
+    path: "/dashboard/restaurent-list",
   },
   {
     label: "Subscription",
