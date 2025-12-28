@@ -69,7 +69,7 @@ export default function Users({ data }: any) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((item: any) => (
+          {data?.map((item: any) => (
             <TableRow key={item?._id}>
               <TableCell>#{item?._id.slice(0, 6)}</TableCell>
               <TableCell className="flex items-center gap-2">
