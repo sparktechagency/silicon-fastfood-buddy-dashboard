@@ -59,7 +59,8 @@ export default function Sidebar() {
           alt="logo"
           width={10}
           height={10}
-          className="w-40 h-40"
+          className="w-full h-full"
+          sizes="100vh"
         />
       </div>
       <div className="space-y-3">
