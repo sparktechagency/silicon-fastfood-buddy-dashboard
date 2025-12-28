@@ -8,6 +8,7 @@ import {
   User,
   LogOut,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export const menuItems = [
@@ -52,7 +53,15 @@ export default function Sidebar() {
   return (
     <aside className="h-screen w-80 bg-[#012846] p-4 flex flex-col justify-between">
       {/* Menu */}
-      <div>Logo herer</div>
+      <div>
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width={10}
+          height={10}
+          className="w-40 h-40"
+        />
+      </div>
       <div className="space-y-3">
         {menuItems.map(({ label, icon: Icon, path }) => (
           <Link
