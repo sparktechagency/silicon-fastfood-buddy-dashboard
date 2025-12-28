@@ -1,7 +1,6 @@
 import SubscriptionModal from "@/components/modal/SubscriptionModal";
 import Subscription from "@/components/subscription/Subscription";
 import { Button } from "@/components/ui/button";
-import React from "react";
 
 export default function page() {
   return (
