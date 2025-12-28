@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -9,28 +10,25 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { month: "Jan", users: 110000, active: 120000 },
-  { month: "Feb", users: 140000, active: 155000 },
-  { month: "Mar", users: 125000, active: 135000 },
-  { month: "Apr", users: 120000, active: 118000 },
-  { month: "May", users: 165000, active: 145000 },
-  { month: "Jun", users: 220342, active: 175000 },
-  { month: "Jul", users: 210000, active: 200000 },
-  { month: "Aug", users: 195000, active: 210000 },
-  { month: "Sep", users: 235000, active: 170000 },
-  { month: "Oct", users: 190000, active: 135000 },
-  { month: "Nov", users: 150000, active: 130000 },
-  { month: "Dec", users: 165000, active: 160000 },
-];
+export default function ChartBar({
+  card,
+  chart,
+}: {
+  card: { totalUsers: string; activeUsers: string };
+  chart: any;
+}) {
+  const data = chart?.map((item: any) => ({
+    month: item?.month,
+    count: item?.count,
+    active: true,
+  }));
 
-export default function ChartBar() {
   return (
-    <section className="rounded-xl border border-sky-500/30 bg-linear-to-b from-[#062A44] to-[#041C2D] p-6 mt-5">
+    <div className="rounded-xl border border-sky-500/30 bg-linear-to-b from-[#062A44] to-[#041C2D] p-6 mt-5">
       {/* Stats */}
       <div className="grid grid-cols-2 gap-6 mb-8">
-        <StatCard title="Total User" value="11,457" />
-        <StatCard title="Active Users" value="5,653" />
+        <StatCard title="Total User" value={card?.totalUsers} />
+        <StatCard title="Active Users" value={card?.activeUsers} />
       </div>
 
       {/* Header */}
@@ -82,7 +80,7 @@ export default function ChartBar() {
           </LineChart>
         </ResponsiveContainer>
       </div>
-    </section>
+    </div>
   );
 }
 
