@@ -138,3 +138,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.jodit_theme_custom {
+  --jd-color-background-default: #012846; /* dark blue background */
+  --jd-color-color: #ffffff; /* white text */
+}
