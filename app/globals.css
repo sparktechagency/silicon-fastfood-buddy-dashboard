@@ -147,3 +147,7 @@ body {
     @apply w-full bg-[#FCA112] text-white p-3 rounded-full hover:bg-[#FE8005] transition cursor-pointer;
   }
 }
+.jodit_theme_custom {
+  --jd-color-background-default: #012846; /* dark blue background */
+  --jd-color-color: #ffffff; /* white text */
+}

@@ -11,37 +11,13 @@ import {
 } from "@/components/ui/table";
 import { Info, Lock, Unlock } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 import Swal from "sweetalert2";
 import UsersDetailsModal from "../modal/UsersDetailsModal";
 import dayjs from "dayjs";
-
-const data = [
-  {
-    id: 1,
-    name: "Dulce Rohman",
-    contact: "+1234567890",
-    email: "user@email.com",
-    date: "12/21/2023",
-    gender: "Male",
-    address: "California, USA",
-    status: "Active",
-  },
-  {
-    id: 2,
-    name: "Dulce Rohman",
-    contact: "+1234567890",
-    email: "user@email.com",
-    date: "12/21/2023",
-    gender: "Male",
-    address: "California, USA",
-    status: "Inactive",
-  },
-];
+import { myFetch } from "@/app/utils/myFetch";
+import { revalidate } from "@/app/utils/revalidateTags";
 
 export default function Users({ data }: any) {
-  const [status, setStatus] = useState([1, 2]);
-
   const hanldeLock = (id: number) => {
     Swal.fire({
       title: "Are you sure?",
@@ -55,19 +31,23 @@ export default function Users({ data }: any) {
         confirmButton: "swal-btn",
         cancelButton: "swal-btn",
       },
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const isActive = status.includes(id);
-        if (isActive) {
-          setStatus(status.filter((item) => item !== id));
-        } else {
-          setStatus([...status, id]);
-        }
-        Swal.fire({
-          title: "Blocked!",
-          text: "Your file has been blocked.",
-          icon: "success",
-        });
+        try {
+          const res = await myFetch(`/users/toggle-status/${id}`, {
+            method: "PATCH",
+          });
+
+          if (res?.success) {
+            revalidate("users");
+          }
+
+          Swal.fire({
+            title: "Blocked!",
+            text: "Your file has been blocked.",
+            icon: "success",
+          });
+        } catch (err) {}
       }
     });
   };
@@ -120,7 +100,7 @@ export default function Users({ data }: any) {
                 <div className="flex items-center  space-x-2">
                   <div>
                     <UsersDetailsModal
-                      item={item?._id}
+                      item={item}
                       trigger={
                         <div className="text-red-400 cursor-pointer mt-2">
                           <Info />
@@ -130,15 +110,15 @@ export default function Users({ data }: any) {
                   </div>
 
                   <div>
-                    {status.includes(item.id) ? (
+                    {item?.status === "Inactive" ? (
                       <Lock
                         className="text-red-400 cursor-pointer"
-                        onClick={() => hanldeLock(item.id)}
+                        onClick={() => hanldeLock(item?._id)}
                       />
                     ) : (
                       <Unlock
                         className="cursor-pointer"
-                        onClick={() => hanldeLock(item.id)}
+                        onClick={() => hanldeLock(item?._id)}
                       />
                     )}
                   </div>

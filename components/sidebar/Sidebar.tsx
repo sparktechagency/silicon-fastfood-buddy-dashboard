@@ -43,15 +43,15 @@ export const menuItems = [
     path: "/dashboard/privacy-policy",
   },
   {
-    label: "My Profile",
+    label: "Change Password",
     icon: User,
-    path: "/dashboard/profile",
+    path: "/dashboard/change-password",
   },
 ];
 
 export default function Sidebar() {
   return (
-    <aside className="h-screen w-80 bg-[#012846] p-4 flex flex-col justify-between">
+    <aside className="h-screen w-80 bg-[#012846] text-white p-4 flex flex-col justify-between">
       {/* Menu */}
       <div>
         <Image
@@ -68,7 +68,7 @@ export default function Sidebar() {
           <Link
             href={path}
             key={label}
-            className={`flex items-center gap-3 w-full px-5 py-3 rounded-full font-medium transition text-xl bg-[#054768]`}
+            className={`flex items-center gap-3 w-full px-5 py-3 rounded-full font-medium transition text-lg bg-[#054768]`}
           >
             <Icon className="w-5 h-5 text-orange-400" />
             {label}
