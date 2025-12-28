@@ -24,7 +24,7 @@ const data = [
   { month: "Dec", users: 165000, active: 160000 },
 ];
 
-export default function UserGrowthDashboard() {
+export default function ChartBar() {
   return (
     <section className="rounded-xl border border-sky-500/30 bg-linear-to-b from-[#062A44] to-[#041C2D] p-6 mt-5">
       {/* Stats */}

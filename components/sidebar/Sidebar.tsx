@@ -14,37 +14,37 @@ export const menuItems = [
   {
     label: "Overview",
     icon: LayoutGrid,
-    path: "/",
+    path: "/dashboard",
   },
   {
     label: "User Management",
     icon: Users,
-    path: "/users",
+    path: "/dashboard/users",
   },
   {
     label: "Restaurant List",
     icon: Store,
-    path: "/restaurants",
+    path: "/dashboard/restaurants",
   },
   {
     label: "Subscription",
     icon: CreditCard,
-    path: "/subscription",
+    path: "/dashboard/subscription",
   },
   {
     label: "Terms & Condition",
     icon: FileText,
-    path: "/terms-condition",
+    path: "/dashboard/terms-condition",
   },
   {
     label: "Privacy Policy",
     icon: Shield,
-    path: "/privacy-policy",
+    path: "/dashboard/privacy-policy",
   },
   {
     label: "My Profile",
     icon: User,
-    path: "/profile",
+    path: "/dashboard/profile",
   },
 ];
 
