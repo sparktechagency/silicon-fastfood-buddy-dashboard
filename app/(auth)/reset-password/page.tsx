@@ -1,16 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { myFetch } from '@/app/utils/myFetch';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 const ResetPassword = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async(data: any) => {
+    const resetToken = localStorage.getItem("resetToken") || "";
+    const res = await myFetch('/auth/reset-password', {
+      method: 'POST',
+      token: resetToken,
+      body: {
+        newPassword: data.newPassword,
+        confirmPassword: data.confirmPassword,
+      }
+    })
+    console.log("Reset password response : ", res);
+    if (res.success) {
+      localStorage.removeItem("resetToken");
+      router.push("/login");
+    } else {
+      console.error("Password reset failed:", res?.message ?? "Failed to reset password!");
+    }
   };
 
   return (
@@ -20,9 +38,9 @@ const ResetPassword = () => {
         <div className="space-y-2">
           <label className="block mb-1 text-white" htmlFor="password">Password</label>
           <input
-            type="new-password"
+            type="newPassword"
             placeholder="Enter Password"
-            {...register('password', { required: 'Password is required' })}
+            {...register('newPassword', { required: 'Password is required' })}
             className="authInputStyle"
           />
         </div>
@@ -30,19 +48,11 @@ const ResetPassword = () => {
         <div className="space-y-2">
           <label className="block mb-1 text-white" htmlFor="password">Password</label>
           <input
-            type="confirm-password"
+            type="confirmPassword"
             placeholder="Enter Password"
-            {...register('password', { required: 'Password is required' })}
+            {...register('confirmPassword', { required: 'Password is required' })}
             className="authInputStyle"
           />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <label className="flex items-center text-white">
-            <input type="checkbox" {...register('rememberMe', { required: 'Remember me is required' })} className="mr-2" />
-            Remember me
-          </label>
-          <a href="#" className="text-blue-300 text-sm">Forgot Password?</a>
         </div>
 
         <div className="mt-4 space-y-4">

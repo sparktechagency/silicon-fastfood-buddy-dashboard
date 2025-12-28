@@ -1,16 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { myFetch } from '@/app/utils/myFetch';
+import { setCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 const SignInForm = () => {
-  const {
-    register,
-    handleSubmit,
-  } = useForm();
+  const router = useRouter();
+  const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    const res = await myFetch('/auth/login', {
+      method: 'POST',
+      body: {
+        email: data.email,
+        password: data.password,
+      }
+    })
+    if (res.success) {
+      setCookie("accessToken", res?.data?.accessToken);
+      setCookie("role", res?.data?.role);
+      router.push("/dashboard");
+    } else {
+      toast.error(res?.message ?? "Login failed!");
+    }
   };
 
   return (
@@ -39,10 +54,10 @@ const SignInForm = () => {
 
         <div className="flex items-center justify-between">
           <label className="flex items-center text-white">
-            <input type="checkbox" {...register('rememberMe', { required: 'Remember me is required' })} className="mr-2" />
+            <input type="checkbox" {...register('rememberMe')} className="mr-2" />
             Remember me
           </label>
-          <a href="#" className="text-blue-300 text-sm">Forgot Password?</a>
+          <a href="/forgot-password" className="text-blue-300 text-sm">Forgot Password?</a>
         </div>
 
         <div className="mt-4 space-y-4">
