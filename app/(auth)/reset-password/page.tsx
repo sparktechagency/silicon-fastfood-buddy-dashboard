@@ -3,7 +3,7 @@
 
 import { useForm } from 'react-hook-form';
 
-const SignInForm = () => {
+const ResetPassword = () => {
   const {
     register,
     handleSubmit,
@@ -18,11 +18,11 @@ const SignInForm = () => {
       <h2 className="text-2xl text-[#008FFF] font-semibold mb-6 text-center">Sign in to Fastfood Buddy</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
-          <label className="block mb-1 text-white" htmlFor="email">Email Address</label>
+          <label className="block mb-1 text-white" htmlFor="password">Password</label>
           <input
-            type="email"
-            placeholder="Enter email address"
-            {...register('email', { required: 'Email is required' })}
+            type="new-password"
+            placeholder="Enter Password"
+            {...register('password', { required: 'Password is required' })}
             className="authInputStyle"
           />
         </div>
@@ -30,7 +30,7 @@ const SignInForm = () => {
         <div className="space-y-2">
           <label className="block mb-1 text-white" htmlFor="password">Password</label>
           <input
-            type="password"
+            type="confirm-password"
             placeholder="Enter Password"
             {...register('password', { required: 'Password is required' })}
             className="authInputStyle"
@@ -48,7 +48,7 @@ const SignInForm = () => {
         <div className="mt-4 space-y-4">
           <p className="text-center text-white mt-2 text-sm">You don’t have to get it right — just check in.</p>
           <button type="submit" className="authButtonStyle">
-            Login
+            Update
           </button>
         </div>
       </form>
@@ -56,4 +56,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default ResetPassword;
