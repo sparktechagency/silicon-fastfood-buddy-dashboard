@@ -20,8 +20,6 @@ const SignInForm = () => {
       },
     });
 
-    console.log("res", res);
-
     if (res.success) {
       setCookie("accessToken", res?.data?.accessToken);
       setCookie("role", res?.data?.role);

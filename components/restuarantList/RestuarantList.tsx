@@ -1,8 +1,30 @@
+"use client";
 import { Search } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function RestaurantList({ data }: any) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const selectedCategory = searchParams.get("category") || "";
+
+  const [category, setCategory] = useState(selectedCategory);
+
+  // Update URL search param on category change
+  const handleCategoryClick = (cat: string) => {
+    setCategory(cat);
+    const params = new URLSearchParams(window.location.search);
+    params.set("restaurant", cat);
+    router.replace(`?${params.toString()}`);
+  };
+
+  // Sync state when URL changes externally
+  useEffect(() => {
+    if (selectedCategory !== category) {
+      setCategory(selectedCategory);
+    }
+  }, [selectedCategory]);
   return (
     <div className="w-80 bg-primary rounded-2xl p-4 text-white">
       {/* Search */}
@@ -21,8 +43,8 @@ export default function RestaurantList({ data }: any) {
       {/* Restaurant List */}
       <div className="space-y-2">
         {data?.map((item: any) => (
-          <Link
-            href={`/dashboard/restaurent-list?restaurant=${item?._id}`}
+          <div
+            onClick={() => handleCategoryClick(item?._id)}
             key={item?._id}
             className={`flex items-center gap-3 bg-[#054768] rounded-full px-3 py-2 cursor-pointer`}
           >
@@ -36,7 +58,7 @@ export default function RestaurantList({ data }: any) {
               />
             </div>
             <span className="text-sm font-medium">{item.name}</span>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

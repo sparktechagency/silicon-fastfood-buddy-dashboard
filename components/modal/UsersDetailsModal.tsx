@@ -1,6 +1,5 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import dayjs from "dayjs";
-import { Lock } from "lucide-react";
 import Image from "next/image";
 
 export default function UsersDetailsModal({
@@ -10,8 +9,6 @@ export default function UsersDetailsModal({
   trigger: React.ReactNode;
   item: any;
 }) {
-  console.log("item", item);
-
   return (
     <Dialog>
       <DialogTrigger>{trigger}</DialogTrigger>

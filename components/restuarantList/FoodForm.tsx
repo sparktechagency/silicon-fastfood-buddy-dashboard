@@ -1,262 +1,264 @@
 "use client";
+
+import React from "react";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import React, { useRef, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
 import AddRestaurantModal from "../modal/AddRestaurantModal";
+import { Input } from "../ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Textarea } from "../ui/textarea";
+import { Label } from "../ui/label";
 
 type FormValues = {
-  itemCategory: string;
-  itemName: string;
-  fast: string;
-  moderate: string;
-  slow: string;
-  whatUsuallyHappens: string;
-  whyThisMatters: string;
-  moderateAbsorption: string;
+  name: string;
+  category: "Breakfast" | "Lunch" | "Dinner" | "Snacks" | "";
+  impactSpeed: "Fast" | "Moderate" | "Slow" | "";
+  digestionSpeed: "Fast" | "Moderate" | "Slow" | "";
+  spike: "Often spikes" | "Spikes later" | "Often spikes later" | "";
+  fact: string;
+  reason: string;
+  absorption: string;
   description: string;
-  carbs: string;
-  fat: string;
-  protein: string;
-  fiber: string;
-};
-const defaultValues = {
-  itemCategory: "Breakfast",
-  itemName: "Pizza",
-  fast: "Fast Impact",
-  moderate: "Slow digestion",
-  slow: "Often spikes later",
-  whatUsuallyHappens: "Sample text",
-  whyThisMatters: "Sample text",
-  carbs: "50g",
-  fat: "50g",
-  protein: "50g",
-  fiber: "5g",
+  typicalServing: {
+    carbs: string;
+    fat: string;
+    protein: string;
+    fiber: string;
+  };
 };
 
 const FoodForm: React.FC = () => {
-  const { control, handleSubmit, setValue } = useForm<FormValues>({
-    defaultValues: defaultValues,
+  // const inputRef = useRef<HTMLInputElement | null>(null);
+  // const [file, setFile] = useState<File | null>(null);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      category: "",
+      impactSpeed: "",
+      digestionSpeed: "",
+      spike: "",
+      fact: "",
+      reason: "",
+      absorption: "",
+      description: "",
+      typicalServing: {
+        carbs: "",
+        fat: "",
+        protein: "",
+        fiber: "",
+      },
+    },
   });
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [file, setFile] = useState<File | null>(null);
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     const file = e.target.files[0];
+  //     setFile(file);
+  //   }
+  // };
+  // const handleClick = () => {
+  //   if (inputRef.current) {
+  //     inputRef.current.click();
+  //   }
+  // };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setFile(file);
-    }
-  };
-
-  const handleClick = () => {
-    if (inputRef.current) {
-      inputRef.current.click();
-    }
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log("FORM DATA:", data);
   };
 
   return (
     <>
-      <div className="flex justify-end">
+      {/* Add Restaurant */}
+      <div className="flex justify-end mb-4">
         <AddRestaurantModal
           trigger={
-            <Button className="bg-[#FF6D00] hover:bg-[#FF6D00] text-white px-7 h-10  rounded-full text-lg cursor-pointer">
+            <Button className="bg-[#FF6D00] hover:bg-[#FF6D00] text-white px-7 h-10 rounded-full text-lg">
               <Plus /> Add Restaurant
             </Button>
           }
         />
       </div>
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* <div
-        className="border-2 border-dashed border-[#0097B5] flex items-center justify-center p-12 text-white"
-        onClick={handleClick}
-      >
-        {file?.name ? file?.name : "Upload CSV / PDF"}
-      </div>
-
-      <input
-        ref={inputRef}
-        type="file"
-        id="file-upload"
-        className="hidden"
-        accept=".csv,.pdf"
-        onChange={handleChange}
-      /> */}
+          className="border-2 border-dashed border-[#0097B5] flex items-center justify-center p-12 text-white"
+          onClick={handleClick}
+        >
+          {file?.name ? file?.name : "Upload CSV / PDF"}{" "}
+        </div>{" "}
+        <input
+          ref={inputRef}
+          type="file"
+          id="file-upload"
+          className="hidden"
+          accept=".csv,.pdf"
+          onChange={handleChange}
+        /> */}
+        {/* Category & Name */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Item Category */}
           <div>
-            <label className="foodLevelStyle">Item Category</label>
+            <Label>Item Category</Label>
             <Controller
-              name="itemCategory"
+              name="category"
               control={control}
               render={({ field }) => (
-                <select {...field} className="foodInputStyle">
-                  <option value="Breakfast">Breakfast</option>
-                  <option value="Lunch">Lunch</option>
-                  <option value="Dinner">Dinner</option>
-                </select>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Breakfast">Breakfast</SelectItem>
+                    <SelectItem value="Lunch">Lunch</SelectItem>
+                    <SelectItem value="Dinner">Dinner</SelectItem>
+                    <SelectItem value="Snacks">Snacks</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
             />
           </div>
 
-          {/* Item Name */}
           <div>
-            <label className="foodLevelStyle">Item Name</label>
-            <Controller
-              name="itemName"
-              control={control}
-              render={({ field }) => (
-                <input {...field} className="foodInputStyle" />
-              )}
+            <Label>Item Name</Label>
+            <Input
+              {...register("name", { required: "Food name is required" })}
+              placeholder="Type food name"
             />
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
           </div>
         </div>
-
-        {/* Fast, Moderate, Slow */}
+        {/* Impact & Digestion */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="foodLevelStyle">Fast</label>
+            <Label>Impact Speed</Label>
             <Controller
-              name="fast"
+              name="impactSpeed"
               control={control}
               render={({ field }) => (
-                <select {...field} className="foodInputStyle">
-                  <option value="Fast Impact">Fast Impact</option>
-                  <option value="Moderate">Moderate</option>
-                  <option value="Slow">Slow</option>
-                </select>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select impact" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Fast">Fast</SelectItem>
+                    <SelectItem value="Moderate">Moderate</SelectItem>
+                    <SelectItem value="Slow">Slow</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
             />
           </div>
 
           <div>
-            <label className="foodLevelStyle">Moderate</label>
+            <Label>Digestion Speed</Label>
             <Controller
-              name="moderate"
+              name="digestionSpeed"
               control={control}
               render={({ field }) => (
-                <select {...field} className="foodInputStyle">
-                  <option value="Slow digestion">Slow digestion</option>
-                  <option value="Fast digestion">Fast digestion</option>
-                </select>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select digestion" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Fast">Fast</SelectItem>
+                    <SelectItem value="Moderate">Moderate</SelectItem>
+                    <SelectItem value="Slow">Slow</SelectItem>
+                  </SelectContent>
+                </Select>
               )}
             />
           </div>
 
           <div>
-            <label className="foodLevelStyle">Slow</label>
+            <Label>Spikes Info</Label>
             <Controller
-              name="slow"
+              name="spike"
               control={control}
               render={({ field }) => (
-                <select {...field} className="foodInputStyle">
-                  <option value="Often spikes later">Often spikes later</option>
-                  <option value="Gradual absorption">Gradual absorption</option>
-                </select>
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select digestion" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Often spikes">Often spikes</SelectItem>
+                    <SelectItem value="Spikes later">Spikes later</SelectItem>
+                    <SelectItem value="Often spikes later">
+                      Often spikes later
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               )}
             />
           </div>
         </div>
+        {/* Facts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="foodLevelStyle">What usually happens</label>
+            <Label>What usually happens</Label>
             <Controller
-              name="whatUsuallyHappens"
+              name="fact"
               control={control}
               render={({ field }) => (
-                <textarea {...field} rows={3} className="foodInputStyle" />
+                <Textarea {...field} rows={3} placeholder="Type here" />
               )}
             />
           </div>
+
           <div>
-            <label className="foodLevelStyle">Why this matters?</label>
+            <Label>Why this matters?</Label>
             <Controller
-              name="whyThisMatters"
+              name="reason"
               control={control}
               render={({ field }) => (
-                <textarea {...field} rows={3} className="foodInputStyle" />
+                <Textarea {...field} rows={3} placeholder="Type here" />
               )}
             />
           </div>
         </div>
-
         {/* Digestion Profile */}
-        <div className="space-y-2">
-          <p className="text-white text-lg font-semibold">Digestion Profile</p>
-          <div className="space-y-3">
-            <label className="foodLevelStyle">Moderate Absorption</label>
-            <Controller
-              name="moderateAbsorption"
-              control={control}
-              render={({ field }) => (
-                <input {...field} className="foodInputStyle" />
-              )}
-            />
-          </div>
-          {/* Digestion Profile */}
-          <div>
-            <label className="foodLevelStyle">Description</label>
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => (
-                <textarea {...field} rows={3} className="foodInputStyle" />
-              )}
-            />
-          </div>
-        </div>
+        <div className="space-y-3">
+          <Label>Absorption</Label>
+          <Input
+            {...register("absorption")}
+            placeholder="e.g. Moderate absorption"
+          />
 
+          <Label>Description</Label>
+          <Controller
+            name="description"
+            control={control}
+            render={({ field }) => <Textarea {...field} rows={3} />}
+          />
+        </div>
         {/* Nutrients */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div>
-            <label className="foodLevelStyle">Carbs</label>
-            <Controller
-              name="carbs"
-              control={control}
-              render={({ field }) => (
-                <input type="text" {...field} className="foodInputStyle" />
-              )}
-            />
-          </div>
-
-          <div>
-            <label className="foodLevelStyle">Fat</label>
-            <Controller
-              name="fat"
-              control={control}
-              render={({ field }) => (
-                <input type="text" {...field} className="foodInputStyle" />
-              )}
-            />
-          </div>
-
-          <div>
-            <label className="foodLevelStyle">Protein</label>
-            <Controller
-              name="protein"
-              control={control}
-              render={({ field }) => (
-                <input type="text" {...field} className="foodInputStyle" />
-              )}
-            />
-          </div>
-
-          <div>
-            <label className="foodLevelStyle">Fiber</label>
-            <Controller
-              name="fiber"
-              control={control}
-              render={({ field }) => (
-                <input type="text" {...field} className="foodInputStyle" />
-              )}
-            />
-          </div>
+          {(["carbs", "fat", "protein", "fiber"] as const).map((item) => (
+            <div key={item}>
+              <Label className="capitalize">{item}</Label>
+              <Controller
+                name={`typicalServing.${item}`}
+                control={control}
+                render={({ field }) => (
+                  <Input {...field} placeholder="Enter grams" />
+                )}
+              />
+            </div>
+          ))}
         </div>
-
-        {/* Submit Button */}
+        {/* Submit */}
         <button type="submit" className="authButtonStyle">
           Add Now
         </button>

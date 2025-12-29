@@ -33,7 +33,6 @@ export default function ChangePassword() {
         body: data,
       });
 
-      console.log("res", res);
       if (res?.success) {
         toast.success;
       } else {

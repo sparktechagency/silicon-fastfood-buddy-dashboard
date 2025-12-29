@@ -2,7 +2,11 @@
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { myFetch } from "@/app/utils/myFetch";
 import { useRouter } from "next/navigation";
 
@@ -23,16 +27,15 @@ const VerifyOtp = () => {
 
   // Handle form submission
   const onSubmit = async (data: any) => {
-    console.log("OTP submitted:", data);
     const resetEmail = localStorage.getItem("resetEmail");
-    const res = await myFetch('/auth/verify-email', {
-      method: 'POST',
+    const res = await myFetch("/auth/verify-email", {
+      method: "POST",
       body: {
         email: resetEmail,
         oneTimeCode: Number(data.verifyOtp),
-      }
+      },
     });
-    console.log("Verify OTP response : ", res);
+
     if (res.success) {
       // Proceed to reset password page or next step
       localStorage.setItem("resetToken", res?.data);
@@ -40,7 +43,10 @@ const VerifyOtp = () => {
       router.push("/reset-password");
     } else {
       // Handle error (e.g., show error message)
-      console.error("OTP verification failed:", res?.message ?? "Failed to verify OTP!");
+      console.error(
+        "OTP verification failed:",
+        res?.message ?? "Failed to verify OTP!"
+      );
     }
     // You can replace this with your logic to verify OTP
   };
@@ -50,7 +56,10 @@ const VerifyOtp = () => {
       <h2 className="text-2xl text-[#008FFF] font-semibold mb-4 text-center">
         Verify OTP
       </h2>
-      <p className="text-sm text-white mb-6 text-center">Enter your verification code that we have sent your email sh********123@gmail.com</p>
+      <p className="text-sm text-white mb-6 text-center">
+        Enter your verification code that we have sent your email
+        sh********123@gmail.com
+      </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* OTP Field */}
@@ -76,7 +85,9 @@ const VerifyOtp = () => {
             )}
           />
           {/* Display error message */}
-          {errors.verifyOtp && <p className="text-red-500 text-sm">{errors.verifyOtp.message}</p>}
+          {errors.verifyOtp && (
+            <p className="text-red-500 text-sm">{errors.verifyOtp.message}</p>
+          )}
         </div>
 
         {/* Submit Button */}

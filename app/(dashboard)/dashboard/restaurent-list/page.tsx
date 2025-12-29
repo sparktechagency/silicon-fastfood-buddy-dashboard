@@ -13,23 +13,27 @@ const Home = async ({
   });
 
   const { restaurant = "", category = "" } = await searchParams;
+  const params = new URLSearchParams();
 
-  const singleDetails = await myFetch(
-    `/foods?restaurant=${restaurant}&category=${category}`
-  );
-  console.log("singleDetails", singleDetails);
+  if (restaurant) params.append("restaurant", restaurant);
+  if (category) params.append("category", category);
+
+  const singleDetails = await myFetch(`/foods?${params.toString()}`);
 
   return (
     <div className="grid grid-cols-[30%_70%]">
       <div>
         <RestaurantList data={res?.data} />
       </div>
-      {/* <div>
-        <FoodForm />
-      </div> */}
-      <div>
-        <SingleRestaurantDetails details={singleDetails?.data} />
-      </div>
+      {singleDetails?.data.length > 0 ? (
+        <div>
+          <SingleRestaurantDetails details={singleDetails?.data} />
+        </div>
+      ) : (
+        <div>
+          <FoodForm />
+        </div>
+      )}
     </div>
   );
 };
