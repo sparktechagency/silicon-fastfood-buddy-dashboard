@@ -1,3 +1,4 @@
+"use  client";
 import {
   LayoutGrid,
   Users,
@@ -50,6 +51,7 @@ export const menuItems = [
 ];
 
 export default function Sidebar() {
+  const handleLogOut = () => {};
   return (
     <aside className="h-screen w-80 bg-[#012846] text-white p-4 ">
       {/* Menu */}
@@ -77,7 +79,10 @@ export default function Sidebar() {
       </div>
 
       {/* Logout */}
-      <button className="flex items-center gap-3 px-5 py-3 mt-20 w-full rounded-full text-sm font-medium bg-[#07324F] text-gray-200 hover:bg-[#0B4A6F] transition">
+      <button
+        onClick={handleLogOut}
+        className="flex items-center gap-3 px-5 py-3 mt-20 w-full rounded-full text-sm font-medium bg-[#07324F] text-gray-200 hover:bg-[#0B4A6F] transition"
+      >
         <LogOut className="w-5 h-5 text-orange-400" />
         Log Out
       </button>

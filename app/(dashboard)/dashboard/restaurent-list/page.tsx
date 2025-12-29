@@ -1,12 +1,19 @@
-// pages/index.tsx
-import React from "react";
-import FoodForm from "./FoodForm";
+import { myFetch } from "@/app/utils/myFetch";
+import FoodForm from "../../../../components/restuarantList/FoodForm";
+import RestaurantList from "@/components/restuarantList/RestuarantList";
 
-const Home = () => {
+const Home = async () => {
+  const res = await myFetch("/restaurants", {
+    tags: ["restaurants"],
+  });
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      {/* <h1 className="text-2xl font-bold text-center mb-6">Food Item Form</h1> */}
-      <FoodForm />
+    <div className="grid grid-cols-[30%_70%]">
+      <div>
+        <RestaurantList data={res?.data} />
+      </div>
+      <div>
+        <FoodForm />
+      </div>
     </div>
   );
 };
