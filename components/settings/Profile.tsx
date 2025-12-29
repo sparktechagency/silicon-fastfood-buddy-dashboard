@@ -8,6 +8,7 @@ import { Input } from "../ui/input";
 import { myFetch } from "@/app/utils/myFetch";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { revalidate } from "@/app/utils/revalidateTags";
 
 interface ProfileProps {
   data: {
@@ -55,12 +56,17 @@ export default function Profile({ data }: ProfileProps) {
 
     try {
       setLoading(true);
-      await myFetch("/users/profile", {
+      const res = await myFetch("/users/profile", {
         method: "PATCH",
         body: formData,
       });
 
-      toast.success("Profile updated successfully");
+      if (res.success) {
+        toast.success("Profile updated successfully");
+        revalidate("profile");
+      } else {
+        toast.error(res.message);
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Update failed");
     } finally {
@@ -80,6 +86,7 @@ export default function Profile({ data }: ProfileProps) {
           alt="Profile"
           fill
           className="rounded-full object-cover border-4 border-white"
+          unoptimized
         />
 
         <Label className="absolute bottom-1 right-1 bg-[#E6FBFF] text-[#012846] p-2 rounded-full cursor-pointer shadow">

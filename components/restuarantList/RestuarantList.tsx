@@ -55,6 +55,7 @@ export default function RestaurantList({ data }: any) {
                 height={10}
                 alt={item.name}
                 className="w-5 h-5"
+                unoptimized
               />
             </div>
             <span className="text-sm font-medium">{item.name}</span>

@@ -54,11 +54,15 @@ export default function ItemDetailsRightside() {
 
       {/* Buttons */}
       <div className="flex gap-3">
-        <Link href={`/dashboard/restaurant-form/${details?._id}`}>
-          <button className="flex-1 bg-orange-500 hover:bg-orange-600 rounded-full py-2 text-sm font-medium">
+        <Link
+          href={`/dashboard/restaurant-form/${details?._id}`}
+          className="flex-1"
+        >
+          <button className="w-full bg-orange-500 hover:bg-orange-600 rounded-full py-2 text-sm font-medium">
             Edit
           </button>
         </Link>
+
         <button className="flex-1 bg-red-500 hover:bg-red-600 rounded-full py-2 text-sm font-medium">
           Delete
         </button>

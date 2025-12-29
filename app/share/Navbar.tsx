@@ -48,6 +48,7 @@ export default function Navbar() {
               height={60}
               className="w-12 h-12 rounded-full"
               sizes="100vh"
+              unoptimized
             />
             <div className="text-white">
               <div className="font-medium">{profile?.name}</div>
