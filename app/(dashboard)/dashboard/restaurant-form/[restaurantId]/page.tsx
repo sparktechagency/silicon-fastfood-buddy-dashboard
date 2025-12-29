@@ -6,11 +6,10 @@ export default async function Page({
   params: { restaurantId: string };
 }) {
   const { restaurantId } = await params;
-  console.log("res id", restaurantId);
 
   return (
     <>
-      <RestuarantForm />
+      <RestuarantForm restaurantId={restaurantId} />
     </>
   );
 }

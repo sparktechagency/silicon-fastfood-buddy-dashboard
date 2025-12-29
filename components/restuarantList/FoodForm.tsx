@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -15,6 +15,8 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
+import { toast } from "sonner";
+import { myFetch } from "@/app/utils/myFetch";
 
 type FormValues = {
   name: string;
@@ -27,24 +29,40 @@ type FormValues = {
   absorption: string;
   description: string;
   typicalServing: {
-    carbs: string;
-    fat: string;
-    protein: string;
-    fiber: string;
+    carbs: number;
+    fat: number;
+    protein: number;
+    fiber: number;
   };
 };
 
-const RestuarantForm: React.FC = () => {
+export default function RestuarantForm({
+  restaurantId,
+}: {
+  restaurantId: string;
+}) {
   // const inputRef = useRef<HTMLInputElement | null>(null);
   // const [file, setFile] = useState<File | null>(null);
+
+  const [details, setDetails] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await myFetch(`/foods/${restaurantId}`);
+      setDetails(res?.data);
+    };
+    fetchData();
+  }, [restaurantId]);
+
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      name: "",
+      name: details?.name || "",
       category: "",
       impactSpeed: "",
       digestionSpeed: "",
@@ -54,13 +72,35 @@ const RestuarantForm: React.FC = () => {
       absorption: "",
       description: "",
       typicalServing: {
-        carbs: "",
-        fat: "",
-        protein: "",
-        fiber: "",
+        carbs: 0,
+        fat: 0,
+        protein: 0,
+        fiber: 0,
       },
     },
   });
+
+  useEffect(() => {
+    if (!details) return;
+
+    reset({
+      name: details.name ?? "",
+      category: details.category ?? "",
+      impactSpeed: details.impactSpeed ?? "",
+      digestionSpeed: details.digestionSpeed ?? "",
+      spike: details.spike ?? "",
+      fact: details.fact ?? "",
+      reason: details.reason ?? "",
+      absorption: details.absorption ?? "",
+      description: details.description ?? "",
+      typicalServing: {
+        carbs: details.typicalServing?.carbs ?? 0,
+        fat: details.typicalServing?.fat ?? 0,
+        protein: details.typicalServing?.protein ?? 0,
+        fiber: details.typicalServing?.fiber ?? 0,
+      },
+    });
+  }, [details, reset]);
 
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   if (e.target.files && e.target.files.length > 0) {
@@ -74,8 +114,32 @@ const RestuarantForm: React.FC = () => {
   //   }
   // };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("FORM DATA:", data);
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const payload = {
+      ...data,
+      ...(!details?._id && { restaurant: restaurantId }),
+    };
+
+    console.log("create", payload);
+    const id = details?._id ? "PATCH" : "POST";
+    const url = details?._id ? `/foods/${details._id}` : "/foods/create";
+
+    try {
+      const res = await myFetch(url, {
+        method: id,
+        body: payload,
+      });
+
+      console.log("res", res);
+
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "try again");
+    }
   };
 
   return (
@@ -252,7 +316,16 @@ const RestuarantForm: React.FC = () => {
                 name={`typicalServing.${item}`}
                 control={control}
                 render={({ field }) => (
-                  <Input {...field} placeholder="Enter grams" />
+                  <Input
+                    type="number"
+                    placeholder="Enter grams"
+                    value={field.value ?? ""}
+                    onChange={(e) =>
+                      field.onChange(
+                        e.target.value === "" ? 0 : Number(e.target.value)
+                      )
+                    }
+                  />
                 )}
               />
             </div>
@@ -260,11 +333,9 @@ const RestuarantForm: React.FC = () => {
         </div>
         {/* Submit */}
         <button type="submit" className="authButtonStyle">
-          Add Now
+          {details?._id ? "Update" : "Add Now"}
         </button>
       </form>
     </>
   );
-};
-
-export default RestuarantForm;
+}
