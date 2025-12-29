@@ -34,7 +34,7 @@ type FormValues = {
   };
 };
 
-const FoodForm: React.FC = () => {
+const RestuarantForm: React.FC = () => {
   // const inputRef = useRef<HTMLInputElement | null>(null);
   // const [file, setFile] = useState<File | null>(null);
   const {
@@ -267,4 +267,4 @@ const FoodForm: React.FC = () => {
   );
 };
 
-export default FoodForm;
+export default RestuarantForm;

@@ -2,6 +2,7 @@ import { myFetch } from "@/app/utils/myFetch";
 import FoodForm from "../../../../components/restuarantList/FoodForm";
 import RestaurantList from "@/components/restuarantList/RestuarantList";
 import SingleRestaurantDetails from "@/components/restuarantList/SingleRestaurantDetails";
+import Link from "next/link";
 
 const Home = async ({
   searchParams,
@@ -30,8 +31,13 @@ const Home = async ({
           <SingleRestaurantDetails details={singleDetails?.data} />
         </div>
       ) : (
-        <div>
-          <FoodForm />
+        <div className="flex items-center justify-center">
+          {/* <FoodForm /> */}
+          <Link href={`/dashboard/restaurant-form/${restaurant}`}>
+            <button className="text-xl p-3 border rounded-3xl text-white cursor-pointer">
+              Add Food Item
+            </button>
+          </Link>
         </div>
       )}
     </div>
