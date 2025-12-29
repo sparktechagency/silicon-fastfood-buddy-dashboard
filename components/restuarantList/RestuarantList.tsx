@@ -1,34 +1,38 @@
 "use client";
 import { Search } from "lucide-react";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function RestaurantList({ data }: any) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedCategory = searchParams.get("category") || "";
+  const [selected, setSelected] = useState<string>("");
 
-  const [category, setCategory] = useState(selectedCategory);
-
-  // Update URL search param on category change
-  const handleCategoryClick = (cat: string) => {
-    setCategory(cat);
+  // Set initial selection to first item if none in URL
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    params.set("restaurant", cat);
+    const current = params.get("restaurant");
+    if (current) {
+      setSelected(current);
+    } else if (data?.length > 0) {
+      setSelected(data[0]?._id);
+      params.set("restaurant", data[0]?._id);
+      router.replace(`?${params.toString()}`);
+    }
+  }, [data, router]);
+
+  // Update URL on click
+  const handleCategoryClick = (id: string) => {
+    setSelected(id);
+    const params = new URLSearchParams(window.location.search);
+    params.set("restaurant", id);
     router.replace(`?${params.toString()}`);
   };
 
-  // Sync state when URL changes externally
-  useEffect(() => {
-    if (selectedCategory !== category) {
-      setCategory(selectedCategory);
-    }
-  }, [selectedCategory]);
   return (
     <div className="w-80 bg-primary rounded-2xl p-4 text-white">
       {/* Search */}
-      <div className="flex items-center gap-2  rounded-full px-3 py-2 mb-4 bg-[#00243F] border border-[#00596B] ">
+      <div className="flex items-center gap-2 rounded-full px-3 py-2 mb-4 bg-[#00243F] border border-[#00596B]">
         <Search size={16} className="text-gray-300" />
         <input
           type="text"
@@ -46,7 +50,11 @@ export default function RestaurantList({ data }: any) {
           <div
             onClick={() => handleCategoryClick(item?._id)}
             key={item?._id}
-            className={`flex items-center gap-3 bg-[#054768] rounded-full px-3 py-2 cursor-pointer`}
+            className={`flex items-center gap-3 rounded-full px-3 py-2 cursor-pointer ${
+              selected === item._id
+                ? "bg-cyan-500 text-white"
+                : "bg-[#054768] text-gray-200"
+            }`}
           >
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
               <Image

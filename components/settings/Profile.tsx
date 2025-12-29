@@ -63,7 +63,7 @@ export default function Profile({ data }: ProfileProps) {
 
       if (res.success) {
         toast.success("Profile updated successfully");
-        revalidate("profile");
+        await revalidate("profile");
       } else {
         toast.error(res.message);
       }

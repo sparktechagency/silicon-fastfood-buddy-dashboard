@@ -27,7 +27,7 @@ export default function SingleRestaurantDetails({ details }: any) {
         <ItemName details={details} />
 
         {/* Right side Details */}
-        <ItemDetailsRightside />
+        <ItemDetailsRightside data={details} />
       </div>
     </div>
   );

@@ -2,12 +2,14 @@
 
 import { myFetch } from "@/app/utils/myFetch";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-export default function ItemDetailsRightside() {
+export default function ItemDetailsRightside({ data }: any) {
   const searchParams = useSearchParams();
   const id = searchParams.get("name") || "";
+  const router = useRouter();
   const [details, setDetails] = useState(null);
   console.log("details", details);
 
@@ -19,23 +21,30 @@ export default function ItemDetailsRightside() {
     fetchData();
   }, [id]);
 
+  console.log("data", data);
+
+  const handleEditForm = (id: string) => {
+    if (!id) {
+      toast.error("Plase select item");
+      return;
+    }
+
+    router.push(`/dashboard/restaurant-form/${id}`);
+  };
+
   return (
     <div className="col-span-8 bg-[#00243F] rounded-lg p-4">
       <h3 className="text-cyan-400 text-sm mb-1">What usually happens</h3>
-      <p className="text-sm mb-3">
-        Fries tend to raise blood sugar quickly, especially when eaten alone
-      </p>
+      <p className="text-sm mb-3">{data[0]?.fact}</p>
 
       <h3 className="text-cyan-400 text-sm mb-1">Why this matters?</h3>
-      <p className="text-sm mb-4">
-        Because digestion is fast, timing often matters more than total carbs
-      </p>
+      <p className="text-sm mb-4">{data[0]?.reason}</p>
 
       <h3 className="text-cyan-400 text-sm mb-1">Digestion Profile</h3>
       <p className="text-sm mb-4">
         <span className="text-cyan-400 font-medium">Moderate Absorption</span>
         <br />
-        Often affects blood sugar within 40–90 minutes
+        {data[0]?.absorption}
       </p>
 
       {/* Nutrition Box */}
@@ -54,16 +63,14 @@ export default function ItemDetailsRightside() {
 
       {/* Buttons */}
       <div className="flex gap-3">
-        <Link
-          href={`/dashboard/restaurant-form/${details?._id}`}
-          className="flex-1"
+        <button
+          onClick={() => handleEditForm(details?._id)}
+          className="w-full bg-orange-500 hover:bg-orange-600 rounded-full py-2 text-sm font-medium"
         >
-          <button className="w-full bg-orange-500 hover:bg-orange-600 rounded-full py-2 text-sm font-medium">
-            Edit
-          </button>
-        </Link>
+          Edit
+        </button>
 
-        <button className="flex-1 bg-red-500 hover:bg-red-600 rounded-full py-2 text-sm font-medium">
+        <button className="w-full bg-red-500 hover:bg-red-600 rounded-full py-2 text-sm font-medium">
           Delete
         </button>
       </div>

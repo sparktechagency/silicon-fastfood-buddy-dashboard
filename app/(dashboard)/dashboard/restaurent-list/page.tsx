@@ -26,7 +26,7 @@ const Home = async ({
       <div>
         <RestaurantList data={res?.data} />
       </div>
-      {singleDetails?.data.length > 0 ? (
+      {singleDetails?.data?.length > 0 ? (
         <div>
           <SingleRestaurantDetails details={singleDetails?.data} />
         </div>
