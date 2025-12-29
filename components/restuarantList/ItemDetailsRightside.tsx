@@ -1,0 +1,61 @@
+import React from "react";
+
+export default function ItemDetailsRightside() {
+  return (
+    <div className="col-span-8 bg-[#00243F] rounded-lg p-4">
+      <h3 className="text-cyan-400 text-sm mb-1">What usually happens</h3>
+      <p className="text-sm mb-3">
+        Fries tend to raise blood sugar quickly, especially when eaten alone
+      </p>
+
+      <h3 className="text-cyan-400 text-sm mb-1">Why this matters?</h3>
+      <p className="text-sm mb-4">
+        Because digestion is fast, timing often matters more than total carbs
+      </p>
+
+      <h3 className="text-cyan-400 text-sm mb-1">Digestion Profile</h3>
+      <p className="text-sm mb-4">
+        <span className="text-cyan-400 font-medium">Moderate Absorption</span>
+        <br />
+        Often affects blood sugar within 40–90 minutes
+      </p>
+
+      {/* Nutrition Box */}
+      <div className="bg-[#083A5A] rounded-lg p-3 mb-4">
+        <h4 className="text-xs mb-2 text-cyan-300">Typical Serving</h4>
+        <div className="grid grid-cols-4 gap-2 text-xs">
+          <div>
+            Carbs
+            <br />
+            <span className="font-semibold">45g</span>
+          </div>
+          <div>
+            Fat
+            <br />
+            <span className="font-semibold">20g</span>
+          </div>
+          <div>
+            Protein
+            <br />
+            <span className="font-semibold">4g</span>
+          </div>
+          <div>
+            Fiber
+            <br />
+            <span className="font-semibold">2g</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex gap-3">
+        <button className="flex-1 bg-orange-500 hover:bg-orange-600 rounded-full py-2 text-sm font-medium">
+          Edit
+        </button>
+        <button className="flex-1 bg-red-500 hover:bg-red-600 rounded-full py-2 text-sm font-medium">
+          Delete
+        </button>
+      </div>
+    </div>
+  );
+}

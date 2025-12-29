@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function RestaurantList({ data }: any) {
   return (
@@ -20,7 +21,8 @@ export default function RestaurantList({ data }: any) {
       {/* Restaurant List */}
       <div className="space-y-2">
         {data?.map((item: any) => (
-          <div
+          <Link
+            href={`/dashboard/restaurent-list?restaurant=${item?._id}`}
             key={item?._id}
             className={`flex items-center gap-3 bg-[#054768] rounded-full px-3 py-2 cursor-pointer`}
           >
@@ -34,7 +36,7 @@ export default function RestaurantList({ data }: any) {
               />
             </div>
             <span className="text-sm font-medium">{item.name}</span>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
