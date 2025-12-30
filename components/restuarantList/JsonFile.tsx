@@ -46,15 +46,13 @@ export default function JsonFile({ restaurantId }: { restaurantId: string }) {
         body: formData,
       });
 
-      console.log("res", res);
-
       if (res?.success) {
         setUploadData(res.data);
         toast.success(res.message ?? "File uploaded successfully");
         setFile(null);
         if (inputRef.current) inputRef.current.value = "";
       } else {
-        toast.error(res.message ?? "Upload failed");
+        toast.error((res as any).error[0].message ?? "Upload failed");
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Try again");

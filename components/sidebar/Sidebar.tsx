@@ -1,3 +1,4 @@
+"use client";
 import {
   LayoutGrid,
   Users,
@@ -10,6 +11,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import LogOutPage from "./LogOut";
+import { usePathname } from "next/navigation";
 
 export const menuItems = [
   {
@@ -50,6 +52,16 @@ export const menuItems = [
 ];
 
 export default function Sidebar() {
+  const pathname = usePathname();
+  console.log(pathname);
+
+  function isActiveStyle(path: string) {
+    const check = path === pathname;
+    return check
+      ? `bg-linear-to-r from-[#012846] to-[#064E6F] border border-[#064E6F]`
+      : ` bg-[#054768] hover:bg-[#065d84]`;
+  }
+
   return (
     <aside className="h-screen w-80 bg-[#012846] text-white p-4 ">
       {/* Menu */}
@@ -64,16 +76,22 @@ export default function Sidebar() {
       />
 
       <div className="space-y-3 mt-10">
-        {menuItems.map(({ label, icon: Icon, path }) => (
-          <Link
-            href={path}
-            key={label}
-            className={`flex items-center gap-3 w-full px-5 py-3 rounded-full font-medium transition text-lg bg-[#054768] `}
-          >
-            <Icon className="w-5 h-5 text-orange-400" />
-            {label}
-          </Link>
-        ))}
+        {menuItems.map(({ label, icon: Icon, path }) => {
+          const active = path === pathname;
+
+          return (
+            <Link
+              href={path}
+              key={path}
+              className={`flex items-center gap-3 w-full px-5 py-3 rounded-full font-medium  text-lg ${isActiveStyle(
+                path
+              )}`}
+            >
+              <Icon className="w-5 h-5 text-orange-400" />
+              {label}
+            </Link>
+          );
+        })}
       </div>
 
       {/* Logout */}

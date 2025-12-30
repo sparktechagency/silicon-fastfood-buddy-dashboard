@@ -1,6 +1,7 @@
 "use client";
 
 import { myFetch } from "@/app/utils/myFetch";
+import { revalidate } from "@/app/utils/revalidateTags";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -54,17 +55,14 @@ export default function ItemDetailsRightside({
   };
 
   const handleDelete = async (id: string) => {
-    console.log("id", id);
-
     try {
       const res = await myFetch(`/foods/${id}`, {
         method: "DELETE",
       });
 
-      console.log("res", res);
-
       if (res.success) {
         toast.success(res.message);
+        revalidate("food");
       } else {
         toast.error(typeof res.error === "string" ? res.error : res?.error);
       }
@@ -118,7 +116,7 @@ export default function ItemDetailsRightside({
         </button>
 
         <button
-          onClick={() => handleDelete(details?._id)}
+          onClick={() => handleDelete(details?._id as string)}
           className={`w-full rounded-full py-2 text-sm font-medium bg-red-500 hover:bg-red-600 text-white cursor-pointer`}
         >
           Delete

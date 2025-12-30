@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -18,6 +18,8 @@ import { Label } from "../ui/label";
 import { toast } from "sonner";
 import { myFetch } from "@/app/utils/myFetch";
 import JsonFile from "./JsonFile";
+import { revalidate } from "@/app/utils/revalidateTags";
+import { useRouter } from "next/navigation";
 
 type FormValues = {
   name: string;
@@ -43,6 +45,7 @@ export default function RestuarantForm({
   restaurantId: string;
 }) {
   const [details, setDetails] = useState<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,7 +109,6 @@ export default function RestuarantForm({
       ...(!details?._id && { restaurant: restaurantId }),
     };
 
-    console.log("create", payload);
     const id = details?._id ? "PATCH" : "POST";
     const url = details?._id ? `/foods/${details._id}` : "/foods/create";
 
@@ -120,8 +122,10 @@ export default function RestuarantForm({
 
       if (res.success) {
         toast.success(res.message);
+        revalidate("food");
+        router.back();
       } else {
-        toast.error(res.message);
+        toast.error(res.error[0].message as string);
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "try again");

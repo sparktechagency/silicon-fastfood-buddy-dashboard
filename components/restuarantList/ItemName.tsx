@@ -1,5 +1,6 @@
+"use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ItemName({ details }: any) {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function ItemName({ details }: any) {
             key={i}
             onClick={() => handleCategoryClick(item?._id)}
             className={`px-3 py-2 text-white text-md rounded cursor-pointer ${
-              item.name === "name"
+              item?._id === category
                 ? "bg-cyan-500 text-black"
                 : "hover:bg-[#0A3F5E]"
             }`}

@@ -18,8 +18,6 @@ import { myFetch } from "@/app/utils/myFetch";
 import { revalidate } from "@/app/utils/revalidateTags";
 
 export default function Users({ data }: any) {
-  console.log("data", data);
-
   const hanldeLock = (id: number) => {
     Swal.fire({
       title: "Are you sure?",

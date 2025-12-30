@@ -52,7 +52,7 @@ export default function RestaurantList({ data }: any) {
             key={item?._id}
             className={`flex items-center gap-3 rounded-full px-3 py-2 cursor-pointer ${
               selected === item._id
-                ? "bg-cyan-500 text-white"
+                ? "bg-[#00758C] text-white"
                 : "bg-[#054768] text-gray-200"
             }`}
           >

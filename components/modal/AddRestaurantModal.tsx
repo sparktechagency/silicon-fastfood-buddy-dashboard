@@ -69,7 +69,7 @@ export default function AddRestaurantModal({ trigger }: any) {
         toast.success(res.message);
         revalidate("restaurants");
       } else {
-        toast.error(res.message);
+        toast.error(res.error[0].message);
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "try again and again");

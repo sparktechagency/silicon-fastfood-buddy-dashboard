@@ -65,7 +65,7 @@ export default function Profile({ data }: ProfileProps) {
         toast.success("Profile updated successfully");
         await revalidate("profile");
       } else {
-        toast.error(res.message);
+        toast.error(res.error[0].message);
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Update failed");

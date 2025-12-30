@@ -30,7 +30,7 @@ export default function SingleRestaurantDetails({ details }: any) {
           <ItemDetailsRightside data={details} />
         </div>
       ) : (
-        <div className="flex items-center justify-center bg-amber-500 mt-20 text-xl rounded-lg">
+        <div className="flex items-center justify-center  mt-20 text-xl rounded-lg">
           <span className="">No data found. Please Add New Item.</span>
         </div>
       )}

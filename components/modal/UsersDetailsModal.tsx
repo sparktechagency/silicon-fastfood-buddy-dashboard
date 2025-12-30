@@ -9,13 +9,19 @@ export default function UsersDetailsModal({
   trigger: React.ReactNode;
   item: any;
 }) {
+  console.log("item", item);
+
   return (
     <Dialog>
       <DialogTrigger>{trigger}</DialogTrigger>
       <DialogContent className="bg-[#00596B] text-white rounded-xl w-full max-w-sm mx-auto p-6 flex flex-col items-center gap-4">
         {/* Avatar */}
         <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.image}`}
+          src={
+            item?.image
+              ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.image}`
+              : "/profile.png"
+          }
           alt={item?.name}
           width={80}
           height={80}
