@@ -8,8 +8,8 @@ export default async function Page({
   const { restaurantId } = await params;
 
   return (
-    <>
+    <div className="max-w-5xl mx-auto">
       <RestuarantForm restaurantId={restaurantId} />
-    </>
+    </div>
   );
 }

@@ -2,13 +2,15 @@
 
 import { Search } from "lucide-react";
 import { Input } from "../ui/input";
-import Categoryes from "./Categoryes";
-import ItemDetailsRightside from "./ItemDetailsRightside";
 import ItemName from "./ItemName";
+import Categories from "./Categoryes";
+import ItemDetailsRightside from "./ItemDetailsRightside";
 
 export default function SingleRestaurantDetails({ details }: any) {
+  const hasData = details?.length > 0;
+
   return (
-    <div className=" rounded-xl p-4 text-white w-full max-w-5xl">
+    <div className="rounded-xl p-4 text-white w-full max-w-5xl">
       {/* Search */}
       <div className="relative mb-4">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-cyan-300 w-4 h-4" />
@@ -18,23 +20,18 @@ export default function SingleRestaurantDetails({ details }: any) {
         />
       </div>
 
-      {/* Category  */}
-      <Categoryes />
+      {/* Categories */}
+      <Categories />
 
       {/* Content */}
-      {details?.length > 0 ? (
+      {hasData ? (
         <div className="grid grid-cols-12 gap-4">
-          {/* Left List */}
           <ItemName details={details} />
-
-          {/* Right side Details */}
           <ItemDetailsRightside data={details} />
         </div>
       ) : (
-        <div className="flex items-center justify-center h-[400px] bg-amber-500 text-xl">
-          <p className="bg-red-800 text-green-700">
-            No Data Found Plase Add New Item
-          </p>
+        <div className="flex items-center justify-center bg-amber-500 mt-20 text-xl rounded-lg">
+          <span className="">No data found. Please Add New Item.</span>
         </div>
       )}
     </div>

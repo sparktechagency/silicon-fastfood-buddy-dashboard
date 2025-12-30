@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -17,6 +17,7 @@ import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { toast } from "sonner";
 import { myFetch } from "@/app/utils/myFetch";
+import JsonFile from "./JsonFile";
 
 type FormValues = {
   name: string;
@@ -41,9 +42,6 @@ export default function RestuarantForm({
 }: {
   restaurantId: string;
 }) {
-  // const inputRef = useRef<HTMLInputElement | null>(null);
-  // const [file, setFile] = useState<File | null>(null);
-
   const [details, setDetails] = useState<any>(null);
 
   useEffect(() => {
@@ -102,18 +100,6 @@ export default function RestuarantForm({
     });
   }, [details, reset]);
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     const file = e.target.files[0];
-  //     setFile(file);
-  //   }
-  // };
-  // const handleClick = () => {
-  //   if (inputRef.current) {
-  //     inputRef.current.click();
-  //   }
-  // };
-
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const payload = {
       ...data,
@@ -143,7 +129,7 @@ export default function RestuarantForm({
   };
 
   return (
-    <>
+    <div>
       {/* Add Restaurant */}
       <div className="flex justify-end mb-4">
         <AddRestaurantModal
@@ -154,22 +140,9 @@ export default function RestuarantForm({
           }
         />
       </div>
+      {!details?._id && <JsonFile restaurantId={restaurantId} />}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* <div
-          className="border-2 border-dashed border-[#0097B5] flex items-center justify-center p-12 text-white"
-          onClick={handleClick}
-        >
-          {file?.name ? file?.name : "Upload CSV / PDF"}{" "}
-        </div>{" "}
-        <input
-          ref={inputRef}
-          type="file"
-          id="file-upload"
-          className="hidden"
-          accept=".csv,.pdf"
-          onChange={handleChange}
-        /> */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-7">
         {/* Category & Name */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -336,6 +309,6 @@ export default function RestuarantForm({
           {details?._id ? "Update" : "Add Now"}
         </button>
       </form>
-    </>
+    </div>
   );
 }

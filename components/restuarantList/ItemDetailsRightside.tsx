@@ -66,7 +66,7 @@ export default function ItemDetailsRightside({
       if (res.success) {
         toast.success(res.message);
       } else {
-        toast.error(res.error[0]?.message);
+        toast.error(typeof res.error === "string" ? res.error : res?.error);
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Try again ");

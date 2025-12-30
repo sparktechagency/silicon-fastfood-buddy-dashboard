@@ -50,7 +50,7 @@ export default function Categories() {
 
       <div>
         <Link href={`/dashboard/restaurant-form/${id}`}>
-          <button className="ml-auto flex items-center gap-1 bg-cyan-500 text-white text-md px-3 py-2 rounded-full">
+          <button className="ml-auto flex items-center gap-1 bg-cyan-500 text-white text-md px-3 py-2 rounded-full cursor-pointer">
             <Plus size={14} /> Add New Item
           </button>
         </Link>
