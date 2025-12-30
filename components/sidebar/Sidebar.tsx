@@ -55,7 +55,7 @@ export default function Sidebar() {
       {/* Menu */}
 
       <Image
-        src="/logo.png"
+        src="/sidebar.png"
         alt="logo"
         width={10}
         height={10}

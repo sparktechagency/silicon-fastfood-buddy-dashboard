@@ -17,29 +17,34 @@ const Home = async ({
   const params = new URLSearchParams();
 
   if (restaurant) params.append("restaurant", restaurant);
-  if (category) params.append("category", category);
+  if (category) {
+    params.append("category", category);
+  }
 
   const singleDetails = await myFetch(`/foods?${params.toString()}`);
+  console.log("single", singleDetails);
 
   return (
     <div className="grid grid-cols-[30%_70%]">
       <div>
         <RestaurantList data={res?.data} />
       </div>
-      {singleDetails?.data?.length > 0 ? (
+      <div>
+        <SingleRestaurantDetails details={singleDetails?.data} />
+      </div>
+      {/* {singleDetails?.data?.length > 0 ? (
         <div>
           <SingleRestaurantDetails details={singleDetails?.data} />
         </div>
       ) : (
         <div className="flex items-center justify-center">
-          {/* <FoodForm /> */}
           <Link href={`/dashboard/restaurant-form/${restaurant}`}>
             <button className="text-xl p-3 border rounded-3xl text-white cursor-pointer">
               Add Food Item
             </button>
           </Link>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

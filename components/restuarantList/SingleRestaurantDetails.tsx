@@ -22,13 +22,21 @@ export default function SingleRestaurantDetails({ details }: any) {
       <Categoryes />
 
       {/* Content */}
-      <div className="grid grid-cols-12 gap-4">
-        {/* Left List */}
-        <ItemName details={details} />
+      {details?.length > 0 ? (
+        <div className="grid grid-cols-12 gap-4">
+          {/* Left List */}
+          <ItemName details={details} />
 
-        {/* Right side Details */}
-        <ItemDetailsRightside data={details} />
-      </div>
+          {/* Right side Details */}
+          <ItemDetailsRightside data={details} />
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-[400px] bg-amber-500 text-xl">
+          <p className="bg-red-800 text-green-700">
+            No Data Found Plase Add New Item
+          </p>
+        </div>
+      )}
     </div>
   );
 }

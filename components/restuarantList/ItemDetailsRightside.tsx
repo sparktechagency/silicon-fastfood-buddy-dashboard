@@ -53,6 +53,26 @@ export default function ItemDetailsRightside({
     router.push(`/dashboard/restaurant-form/${id}`);
   };
 
+  const handleDelete = async (id: string) => {
+    console.log("id", id);
+
+    try {
+      const res = await myFetch(`/foods/${id}`, {
+        method: "DELETE",
+      });
+
+      console.log("res", res);
+
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.error[0]?.message);
+      }
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Try again ");
+    }
+  };
+
   return (
     <div className="col-span-8 bg-[#00243F] rounded-lg p-4">
       {/* Facts Section */}
@@ -98,6 +118,7 @@ export default function ItemDetailsRightside({
         </button>
 
         <button
+          onClick={() => handleDelete(details?._id)}
           className={`w-full rounded-full py-2 text-sm font-medium bg-red-500 hover:bg-red-600 text-white cursor-pointer`}
         >
           Delete
