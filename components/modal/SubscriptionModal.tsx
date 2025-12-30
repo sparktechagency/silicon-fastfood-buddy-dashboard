@@ -76,7 +76,7 @@ export default function SubscriptionModal({
         toast.success(res?.message);
         revalidate("packages");
       } else {
-        toast.error(res.error[0].message);
+        toast.error((res as any).error[0].message ?? "Upload failed");
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Occured try");

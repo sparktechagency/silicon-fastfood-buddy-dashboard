@@ -36,7 +36,7 @@ export default function ChangePassword() {
       if (res?.success) {
         toast.success;
       } else {
-        toast.error(res.error[0].message);
+        toast.error((res as any).error[0].message ?? "Upload failed");
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "ocurr failed");

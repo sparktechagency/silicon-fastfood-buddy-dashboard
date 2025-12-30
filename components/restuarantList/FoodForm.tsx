@@ -125,7 +125,7 @@ export default function RestuarantForm({
         revalidate("food");
         router.back();
       } else {
-        toast.error(res.error[0].message as string);
+        toast.error((res as any).error[0].message ?? "Upload failed");
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "try again");
