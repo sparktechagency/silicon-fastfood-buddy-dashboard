@@ -55,6 +55,10 @@ export default function ItemDetailsRightside({
   };
 
   const handleDelete = async (id: string) => {
+    if (!id) {
+      toast.error("Please select item name");
+      return;
+    }
     try {
       const res = await myFetch(`/foods/${id}`, {
         method: "DELETE",
@@ -64,7 +68,7 @@ export default function ItemDetailsRightside({
         toast.success(res.message);
         revalidate("food");
       } else {
-        toast.error(typeof res.error === "string" ? res.error : res?.error);
+        toast.error((res as any).error[0].message ?? "Upload failed");
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Try again ");

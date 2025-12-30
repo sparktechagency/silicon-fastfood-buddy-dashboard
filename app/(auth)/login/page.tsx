@@ -3,13 +3,16 @@
 
 import { myFetch } from "@/app/utils/myFetch";
 import { setCookie } from "cookies-next";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const SignInForm = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm();
+  const [showCurrent, setShowCurrent] = useState(false);
 
   const onSubmit = async (data: any) => {
     const res = await myFetch("/auth/login", {
@@ -47,16 +50,25 @@ const SignInForm = () => {
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="block mb-1 text-white" htmlFor="password">
+        <div className="space-y-2 relative">
+          <label className="block text-white" htmlFor="password">
             Password
           </label>
+
           <input
-            type="password"
-            placeholder="Enter Password"
+            type={showCurrent ? "text" : "password"}
+            placeholder="Enter password"
             {...register("password", { required: "Password is required" })}
-            className="authInputStyle"
+            className="authInputStyle pr-10"
           />
+
+          <button
+            type="button"
+            onClick={() => setShowCurrent((prev) => !prev)}
+            className="absolute right-3 top-12 text-gray-400 cursor-pointer"
+          >
+            {showCurrent ? <Eye size={18} /> : <EyeOff size={18} />}
+          </button>
         </div>
 
         <div className="flex items-center justify-between">

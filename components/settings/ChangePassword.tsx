@@ -27,14 +27,21 @@ export default function ChangePassword() {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const payload = {
+      currentPassword: data?.currentPassword,
+      newPassword: data?.newPassword,
+      confirmPassword: data?.confirmPassword,
+    };
     try {
-      const res = await myFetch("//auth/change-password", {
+      const res = await myFetch("/auth/change-password", {
         method: "POST",
-        body: data,
+        body: payload,
       });
 
+      console.log("res", res);
+
       if (res?.success) {
-        toast.success;
+        toast.success(res.message);
       } else {
         toast.error((res as any).error[0].message ?? "Upload failed");
       }
@@ -58,6 +65,7 @@ export default function ChangePassword() {
                 required: "Current password is required",
               })}
               className="w-full border rounded px-3 py-2"
+              placeholder="Enter current password"
             />
             <button
               type="button"
@@ -88,6 +96,7 @@ export default function ChangePassword() {
                 },
               })}
               className="w-full border rounded px-3 py-2"
+              placeholder="Enter new password"
             />
             <button
               type="button"
@@ -116,6 +125,7 @@ export default function ChangePassword() {
                   value === newPassword || "Passwords do not match",
               })}
               className="w-full border rounded px-3 py-2"
+              placeholder="Enter confirm password"
             />
             <button
               type="button"

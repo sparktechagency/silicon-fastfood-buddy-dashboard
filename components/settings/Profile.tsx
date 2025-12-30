@@ -64,6 +64,7 @@ export default function Profile({ data }: ProfileProps) {
       if (res.success) {
         toast.success("Profile updated successfully");
         await revalidate("profile");
+        window.location.reload();
       } else {
         toast.error((res as any).error[0].message ?? "Upload failed");
       }

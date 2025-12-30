@@ -14,8 +14,8 @@ type Inputs = {
   name: string;
   price: string;
 
-  androidProductId: string;
-  iosProductId: string;
+  googleProductId: string;
+  appleProductId: string;
   features: { value: string }[];
 };
 
@@ -30,15 +30,15 @@ export default function SubscriptionModal({
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     control,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
       name: item?.name || "",
       price: item?.price || "",
-      androidProductId: item?.androidProductId || "",
-      iosProductId: item?.iosProductId || "",
+      googleProductId: item?.googleProductId || "",
+      appleProductId: item?.appleProductId || "",
       features: item?.features?.map((v: string) => {
         return {
           value: v,
@@ -59,8 +59,8 @@ export default function SubscriptionModal({
       name: data?.name,
       price: Number(data.price),
       features: features,
-      androidProductId: data.androidProductId,
-      iosProductId: data.iosProductId,
+      googleProductId: data.googleProductId,
+      appleProductId: data.appleProductId,
     };
 
     const id = item?._id ? "PATCH" : "POST";
@@ -75,6 +75,7 @@ export default function SubscriptionModal({
       if (res?.success) {
         toast.success(res?.message);
         revalidate("packages");
+        reset();
       } else {
         toast.error((res as any).error[0].message ?? "Upload failed");
       }
@@ -104,7 +105,7 @@ export default function SubscriptionModal({
           <div>
             <Label>AndroidProduct Id</Label>
             <Input
-              {...register("androidProductId")}
+              {...register("googleProductId")}
               type="text"
               placeholder="Enter androidProduct Id"
             />
@@ -113,7 +114,7 @@ export default function SubscriptionModal({
           <div>
             <Label>IosProduct Id</Label>
             <Input
-              {...register("iosProductId")}
+              {...register("appleProductId")}
               placeholder="Enter iosProduct Id"
             />
           </div>

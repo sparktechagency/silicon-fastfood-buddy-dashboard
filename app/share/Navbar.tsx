@@ -47,7 +47,7 @@ export default function Navbar() {
               alt="logo"
               width={50}
               height={60}
-              className="w-12 h-12 rounded-full"
+              className="w-12 h-12 rounded-full object-cover"
               sizes="100vh"
               unoptimized
             />
