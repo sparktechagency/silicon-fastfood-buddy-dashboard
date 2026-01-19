@@ -74,11 +74,16 @@ export default function Users({ data }: any) {
               <TableCell>#{item?._id.slice(0, 6)}</TableCell>
               <TableCell className="flex items-center gap-2">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.image}`}
+                  src={
+                    item?.image
+                      ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.image}`
+                      : "/profile.png"
+                  }
                   alt="Logo"
                   width={10}
                   height={10}
                   className="w-10 h-10 rounded-full"
+                  unoptimized
                 />
               </TableCell>
 

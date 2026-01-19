@@ -10,6 +10,16 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 export default function ChartBar({
   chart,
 }: {
@@ -29,9 +39,18 @@ export default function ChartBar({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-white">User Growth</h2>
-        <span className="flex items-center gap-2 text-xs text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded-md">
-          2025
-        </span>
+        <Select>
+          <SelectTrigger className="w-45">
+            <SelectValue placeholder="2025" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="2025">2025</SelectItem>
+              <SelectItem value="2026">2026</SelectItem>
+              <SelectItem value="2027">2027</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Chart */}

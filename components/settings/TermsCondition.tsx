@@ -35,8 +35,7 @@ export default function TermsCondition({
         toast.error(termsPost?.message || "Update failed");
       }
     } catch (err) {
-      toast.error("Something went wrong");
-      console.error(err);
+      toast.error(err instanceof Error ? err?.message : "try again");
     }
   };
 

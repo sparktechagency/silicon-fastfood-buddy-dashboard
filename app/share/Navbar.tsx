@@ -15,6 +15,7 @@ export default function Navbar() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await myFetch("/users/profile", {
+        method: "GET",
         tags: ["profile"],
       });
       setProfile(res?.data);
@@ -46,8 +47,9 @@ export default function Navbar() {
               alt="logo"
               width={50}
               height={60}
-              className="w-12 h-12 rounded-full"
+              className="w-12 h-12 rounded-full object-cover"
               sizes="100vh"
+              unoptimized
             />
             <div className="text-white">
               <div className="font-medium">{profile?.name}</div>

@@ -6,8 +6,6 @@ export default async function page() {
     tags: ["users"],
   });
 
-  console.log("res", res);
-
   return (
     <div className="bg-primary text-white">
       <Users data={res?.data} />
