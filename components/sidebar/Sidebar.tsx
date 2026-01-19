@@ -53,7 +53,6 @@ export const menuItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-  console.log(pathname);
 
   function isActiveStyle(path: string) {
     const check = path === pathname;
@@ -66,14 +65,16 @@ export default function Sidebar() {
     <aside className="h-screen w-80 bg-[#012846] text-white p-4 ">
       {/* Menu */}
 
-      <Image
-        src="/sidebar.png"
-        alt="logo"
-        width={10}
-        height={10}
-        className="w-full h-44"
-        sizes="100vh"
-      />
+      <Link href="/dashboard">
+        <Image
+          src="/sidebar.png"
+          alt="logo"
+          width={10}
+          height={10}
+          className="w-full h-44"
+          sizes="100vh"
+        />
+      </Link>
 
       <div className="space-y-3 mt-10">
         {menuItems.map(({ label, icon: Icon, path }) => {
@@ -84,7 +85,7 @@ export default function Sidebar() {
               href={path}
               key={path}
               className={`flex items-center gap-3 w-full px-5 py-3 rounded-full font-medium  text-lg ${isActiveStyle(
-                path
+                path,
               )}`}
             >
               <Icon className="w-5 h-5 text-orange-400" />

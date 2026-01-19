@@ -118,8 +118,6 @@ export default function RestuarantForm({
         body: payload,
       });
 
-      console.log("res", res);
-
       if (res.success) {
         toast.success(res.message);
         revalidate("food");
@@ -299,7 +297,7 @@ export default function RestuarantForm({
                     value={field.value ?? ""}
                     onChange={(e) =>
                       field.onChange(
-                        e.target.value === "" ? 0 : Number(e.target.value)
+                        e.target.value === "" ? 0 : Number(e.target.value),
                       )
                     }
                   />

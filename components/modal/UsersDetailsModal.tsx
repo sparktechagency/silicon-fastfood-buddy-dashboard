@@ -9,8 +9,6 @@ export default function UsersDetailsModal({
   trigger: React.ReactNode;
   item: any;
 }) {
-  console.log("item", item);
-
   return (
     <Dialog>
       <DialogTrigger>{trigger}</DialogTrigger>
